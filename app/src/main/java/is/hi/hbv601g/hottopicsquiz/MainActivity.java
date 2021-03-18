@@ -3,6 +3,7 @@ package is.hi.hbv601g.hottopicsquiz;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -21,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private Button mButtonTrue;
     private Button mButtonFalse;
     private Button mButtonNext;
+    private Button mButtonCheat;
     private TextView mTextViewQuestion;
+
     private Question [] mQuestionBank = new Question[]{
             new Question(R.string.question_ak, false),
             new Question(R.string.question_es, false),
@@ -64,7 +67,19 @@ public class MainActivity extends AppCompatActivity {
                updateQuestions();
             }
         });
+
+        mButtonCheat = (Button) findViewById(R.id.cheat_button);
+        mButtonCheat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Start Cheat Activity
+                Intent intent = CheatActivity.newIntent(MainActivity.this, mQuestionBank[mCurrentIndex].isAnswerTrue());
+                startActivity(intent);
+            }
+        });
+
     }
+
 
     @Override
     protected void onStart() {
