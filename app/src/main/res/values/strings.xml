@@ -2,7 +2,10 @@
     <string name="app_name">HotTopicsQuiz</string>
     <string name="True_Button">TRUE</string>
     <string name="False_Button">FALSE</string>
-    <string name="Toast_Correct">Correct!</string>
-    <string name="Toast_Incorrect">Incorrect!</string>
-    <string name="question_text">Akureyri is the largest city in Iceland</string>
+    <string name="next_button">NEXT</string>
+    <string name="correct_toast">Correct!</string>
+    <string name="incorrect_toast">Incorrect!</string>
+    <string name="question_ak">Akureyri is the largest city in Iceland</string>
+    <string name="question_rvk">Reykjavík is the largest city in Iceland</string>
+    <string name="question_es">Egilstaðir is the largest city in Iceland</string>
 </resources>
