@@ -7,6 +7,11 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
+    <!--
+    <ProgressBar
+        android:layout_width="149dp"
+        android:layout_height="40dp"/>
+        -->
 
     <TextView
         android:id="@+id/question_text"
@@ -16,7 +21,10 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:paddingBottom="20dp"/>
+        android:padding="20dp"
+        tools:text="Question"
+        android:layout_gravity="center"/>
+    <!-- android:visibility="gone" -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -25,11 +33,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/True_Button"/>
+        <!-- android:enabled="false" -->
         <Button
             android:id="@+id/False_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/False_Button"/>
+        <!-- android:enabled="false" -->
 
     </LinearLayout>
     <Button
@@ -37,9 +47,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cheat_button"/>
+        <!-- android:enabled="false" -->
     <Button
         android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next_button"/>
+        <!-- android:enabled="false" -->
 </LinearLayout>

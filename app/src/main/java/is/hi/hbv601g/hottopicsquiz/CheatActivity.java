@@ -13,12 +13,14 @@ import android.widget.TextView;
 public class CheatActivity extends AppCompatActivity {
 
     private static final String TAG = "CheatActivity";
+    private static final String EXTRA_ANSWER_IS_TRUE = "s.hi.hbv601g.hottopicsquiz.isAnswerTrue";
     private boolean mAnswerIsTrue;
     private Button mButtonShowAnswer;
     private TextView mTextViewAnswer;
-    private static final String EXTRA_ANSWER_IS_TRUE = "s.hi.hbv601g.hottopicsquiz.isAnswerTrue";
-    public static Intent newIntent(Context packageContext,boolean isAnswerTrue){
-        Intent intent = new Intent(packageContext, CheatActivity.class);
+
+
+    public static Intent newIntent(Context packagecontext, boolean isAnswerTrue){
+        Intent intent = new Intent(packagecontext, CheatActivity.class);
         intent.putExtra("EXTRA_ANSWER_IS_TRUE", isAnswerTrue);
         return intent;
     }

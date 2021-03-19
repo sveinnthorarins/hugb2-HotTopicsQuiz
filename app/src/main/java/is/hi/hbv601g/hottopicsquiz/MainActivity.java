@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Start Cheat Activity
                 Intent intent = CheatActivity.newIntent(MainActivity.this, mQuestionBank[mCurrentIndex].isAnswerTrue());
+                intent.putExtra("EXTRA_ANSWER_IS_TRUE",mQuestionBank[mCurrentIndex].isAnswerTrue());
                 startActivity(intent);
             }
         });
