@@ -1,18 +1,14 @@
 <resources>
+
     <string name="app_name">HotTopicsQuiz</string>
-    <string name="True_Button">TRUE</string>
-    <string name="False_Button">FALSE</string>
-    <string name="next_button">NEXT</string>
-    <string name="show_answer_button">SHOW ANSWER</string>
-    //TODO þarf kannski ekki að vera
-    <string name="cheat_button">Cheat!</string> //Todo breyta í takka yfir í upplýsingarnar um
-    spurninguna
-    <string name="judgement_toast">Cheating is wrong!</string>//Todo þarf kannski ekki að vera
-    <string name="correct_toast">Correct!</string>
-    <string name="incorrect_toast">Incorrect!</string>
-    <string name="question_ak">Akureyri is the largest city in Iceland</string>
-    <string name="question_rvk">Reykjavík is the largest city in Iceland</string>
-    <string name="question_es">Egilstaðir is the largest city in Iceland</string>
-    <string name="cheating_confirmation_text">Are you sure you want to do this?</string>
+    <string name="login_username_hint">username</string>
+    <string name="login_password_hint">password</string>
+    <string name="login_login_hint">Log In</string>
+    <string name="login_signup_hint">Register Instead</string>
+    <string name="signup_name_hint">name</string>
+    <string name="signup_username_hint">username</string>
+    <string name="signup_password_hint">password</string>
+    <string name="signup_signup_hint">Register</string>
+    <string name="signup_login_hint">Log In Instead</string>
 
 </resources>
