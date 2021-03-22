@@ -52,7 +52,7 @@ public class NetworkController {
 
     public void postJson(String url, JSONObject obj, NetworkCallback<JSONObject> callback) {
         JsonObjectRequest req = new JsonObjectRequest(
-                Request.Method.GET,
+                Request.Method.POST,
                 BASE_URL + url,
                 obj,
                 new Response.Listener<JSONObject>() {
