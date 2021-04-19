@@ -98,10 +98,7 @@ public class SignupActivity extends AppCompatActivity {
             if (i < emptyFields.size()) message.append(" and ").append(emptyFields.get(i)).append(".");
             else message.append(".");
 
-            Toast toast = Toast.makeText(this, message.toString(), Toast.LENGTH_SHORT);
-            TextView v = toast.getView().findViewById(android.R.id.message);
-            if (v != null) v.setGravity(Gravity.CENTER);
-            toast.show();
+            Utils.displayToast(this, message.toString(), Toast.LENGTH_SHORT);
             return;
         }
 
@@ -110,47 +107,25 @@ public class SignupActivity extends AppCompatActivity {
         assert usernameEditable != null;
         assert passwordEditable != null;
 
-        // Fields are not empty, let's validate the input
+        // Fields are not empty, put their contents in strings
         String name = nameEditable.toString();
         String username = usernameEditable.toString();
         String password = passwordEditable.toString();
-        // TODO: Implement input validation in correspondence with backend database server and relevant rules
-//        if (username.length() > 32) {
-//            Toast.makeText(this, "Username can't be more than 32 characters.", Toast.LENGTH_SHORT).show();
-//        }
-//        ...
 
-        // Input has been validated, let's complete the registration
+        // Complete the registration
         mUserService.registerUser(name, username, password, this, new NetworkCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
                 String res = result.toString();
                 Gson gson = new Gson();
                 mUser = gson.fromJson(res, User.class);
-                // TODO: Implement user passing on with switch to QuizMenuActivity
-                Intent intent = QuizMenuActivity.getIntent(SignupActivity.this);
+                Intent intent = QuizMenuActivity.newIntent(SignupActivity.this, mUser);
                 startActivity(intent);
             }
 
             @Override
             public void onFailure(VolleyError error) {
-                String message = "";
-                if (error instanceof NoConnectionError) {
-                    message = "No connection to server.";
-                } else if (error instanceof TimeoutError) {
-                    message = "Connection timed out.";
-                } else if (error instanceof AuthFailureError) {
-                    // TODO: Need to find out which error corresponds to HTTP code 401
-                    // to know that username is already taken, could be this error
-                    message = "Username is already taken.";
-                } else if (error instanceof ParseError) {
-                    message = "Error parsing JSON, this one's for the devs!";
-                }
-                // Display a toast with the error
-                Toast toast = Toast.makeText(SignupActivity.this, message, Toast.LENGTH_LONG);
-                TextView v = toast.getView().findViewById(android.R.id.message);
-                if (v != null) v.setGravity(Gravity.CENTER);
-                toast.show();
+                Utils.standardErrorWithAuthFailureMessage(error, SignupActivity.this, "Username is already taken.");
             }
         });
     }

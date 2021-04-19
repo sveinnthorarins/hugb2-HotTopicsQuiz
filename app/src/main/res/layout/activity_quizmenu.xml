@@ -1,19 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/quizmenu_greeting"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:padding="10dp"
-        android:text="Quizzes"
+        android:layout_height="90dp"
+        android:padding="15dp"
+        android:textAlignment="viewStart"
         android:textSize="40sp"
         android:textStyle="bold">
     </androidx.appcompat.widget.AppCompatTextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:text="@string/quizmenu_thisweeksquiz"
+            android:textSize="28sp"
+            android:textStyle="bold">
+        </androidx.appcompat.widget.AppCompatTextView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="100dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/quizmenu_thisweeksquiz_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true">
+            </androidx.appcompat.widget.AppCompatTextView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/quizmenu_thisweeksquiz_playbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/quizmenu_thisweeksquiz_playbutton_text"
+                tools:ignore="RelativeOverlap">
+            </androidx.appcompat.widget.AppCompatButton>
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:text="@string/quizmenu_yourcompletedquizzes"
+            android:textSize="28sp"
+            android:textStyle="bold">
+        </androidx.appcompat.widget.AppCompatTextView>
+
+        <ListView
+            android:id="@+id/quizmenu_completedquizzes_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="60dp">
+        </ListView>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -72,68 +72,40 @@ public class LoginActivity extends AppCompatActivity {
 
         // Check if fields are empty
         if (usernameEditable == null && passwordEditable == null) {
-            Toast toast = Toast.makeText(this, "You must type in username and password.", Toast.LENGTH_SHORT);
-            TextView v = toast.getView().findViewById(android.R.id.message);
-            if (v != null) v.setGravity(Gravity.CENTER);
-            toast.show();
+            Utils.displayToast(this, getString(R.string.must_type_username_and_password), Toast.LENGTH_SHORT);
             return;
         }
         if (usernameEditable == null) {
-            Toast toast = Toast.makeText(this, "You must type in a username.", Toast.LENGTH_SHORT);
-            TextView v = toast.getView().findViewById(android.R.id.message);
-            if (v != null) v.setGravity(Gravity.CENTER);
-            toast.show();
+            Utils.displayToast(this, getString(R.string.must_type_username), Toast.LENGTH_SHORT);
             return;
         }
         if (passwordEditable == null) {
-            Toast toast = Toast.makeText(this, "You must type in a password.", Toast.LENGTH_SHORT);
+            /*Toast toast = Toast.makeText(this, "You must type in a password.", Toast.LENGTH_SHORT);
             TextView v = toast.getView().findViewById(android.R.id.message);
             if (v != null) v.setGravity(Gravity.CENTER);
-            toast.show();
+            toast.show();*/
+            Utils.displayToast(this, getString(R.string.must_type_password), Toast.LENGTH_SHORT);
             return;
         }
 
-        // Fields are not empty, let's validate the input
+        // Fields are not empty, put their contents in strings
         String username = usernameEditable.toString();
         String password = passwordEditable.toString();
-        // TODO: Implement input validation in correspondence with backend database server and relevant rules
-//        if (username.length() > 32) {
-//            Toast.makeText(this, "Username can't be more than 32 characters.", Toast.LENGTH_SHORT).show();
-//        }
-//        ...
 
-        // Input has been validated, let's validate the login
-        // and try to authenticate our user
+        // Validate the login and try to authenticate our user
         mUserService.validateLogin(username, password, this, new NetworkCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
                 String json = result.toString();
                 Gson gson = new Gson();
                 mUser = gson.fromJson(json, User.class);
-                // TODO: Implement user passing on with switch to QuizMenuActivity
-                Intent intent = QuizMenuActivity.getIntent(LoginActivity.this);
+                Intent intent = QuizMenuActivity.newIntent(LoginActivity.this, mUser);
                 startActivity(intent);
             }
 
             @Override
             public void onFailure(VolleyError error) {
-                String message = "";
-                if (error instanceof NoConnectionError) {
-                    message = "No connection to server.";
-                } else if (error instanceof TimeoutError) {
-                    message = "Connection timed out.";
-                } else if (error instanceof AuthFailureError) {
-                    // TODO: Need to find out which error corresponds to HTTP code 401
-                    // to know that username and password is invalid, could be this error
-                    message = "Invalid username and password combination.";
-                } else if (error instanceof ParseError) {
-                    message = "Error parsing JSON, this one's for the devs!";
-                }
-                // Display a toast with the error
-                Toast toast = Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG);
-                TextView v = toast.getView().findViewById(android.R.id.message);
-                if (v != null) v.setGravity(Gravity.CENTER);
-                toast.show();
+                Utils.standardErrorWithAuthFailureMessage(error, LoginActivity.this, "Invalid username and password combination.");
             }
         });
     }
