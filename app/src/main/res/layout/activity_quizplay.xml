@@ -1,8 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/questionContainer"
+        android:layout_weight="3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Texti fyrir spurningarnar!!!"
+            android:id="@+id/questionText"
+            android:layout_alignParentRight="true"
+            android:textIsSelectable="false"
+            android:enabled="true"
+            android:layout_alignParentEnd="false"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:maxLines = "100"
+            android:scrollbars = "vertical"
+            android:paddingLeft="10dp" />
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/answers_container"
+        android:layout_weight="3">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/answer_a_container"
+            android:layout_gravity="top"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" A) Svar 1"
+                android:id="@+id/answerA"
+                android:maxLines = "100"
+                android:scrollbars = "vertical"
+                android:hint="0" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/answer_b_container"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="B) Svar 2"
+                android:id="@+id/answerB"
+                android:maxLines = "100"
+                android:scrollbars = "vertical"
+                android:layout_alignParentRight="false" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/answer_c_container"
+            android:layout_weight="1" >
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="C) Svar 3"
+                android:id="@+id/answerC"
+                android:maxLines = "100"
+                android:scrollbars = "vertical" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/answer_d_container"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="D) Svar 4"
+                android:id="@+id/answerD"
+                android:maxLines = "100"
+                android:scrollbars = "vertical"
+                android:layout_alignParentRight="false" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:id="@+id/footer">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Næsta Spurning"
+            android:id="@+id/Next_Question_Button"
+            android:layout_gravity="center_horizontal"
+            android:onClick="FinishTest" />
+    </LinearLayout>
 
 </LinearLayout>
