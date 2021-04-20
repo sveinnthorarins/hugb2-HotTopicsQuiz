@@ -22,7 +22,7 @@
             android:enabled="true"
             android:layout_alignParentEnd="false"
             android:layout_centerInParent="true"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:maxLines = "100"
             android:scrollbars = "vertical"
             android:paddingLeft="10dp" />
@@ -51,8 +51,7 @@
                 android:text=" A) Svar 1"
                 android:id="@+id/answerA"
                 android:maxLines = "100"
-                android:scrollbars = "vertical"
-                android:hint="0" />
+                android:scrollbars = "vertical" />
 
         </RelativeLayout>
 
