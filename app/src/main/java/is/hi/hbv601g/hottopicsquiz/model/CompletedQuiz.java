@@ -10,6 +10,8 @@ public class CompletedQuiz implements Parcelable {
     private int score;
     private boolean[] correctAnswers;
 
+    public CompletedQuiz() {}
+
     public CompletedQuiz(Long id, Quiz quiz, int score, boolean[] correctAnswers) {
         this.id = id;
         this.quiz = quiz;

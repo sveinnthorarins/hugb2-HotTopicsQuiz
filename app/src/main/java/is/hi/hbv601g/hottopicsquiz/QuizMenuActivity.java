@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -16,17 +15,22 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 
 import is.hi.hbv601g.hottopicsquiz.custom.CompletedQuizAdapter;
 import is.hi.hbv601g.hottopicsquiz.model.CompletedQuiz;
 import is.hi.hbv601g.hottopicsquiz.model.Quiz;
 import is.hi.hbv601g.hottopicsquiz.model.User;
 import is.hi.hbv601g.hottopicsquiz.networking.NetworkCallback;
-import is.hi.hbv601g.hottopicsquiz.services.QuizResultsActivity;
 import is.hi.hbv601g.hottopicsquiz.services.QuizService;
 
 public class QuizMenuActivity extends AppCompatActivity {
@@ -45,7 +49,7 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     public static Intent newIntent(Context c, User user) {
         Intent i = new Intent(c, QuizMenuActivity.class);
-        i.putExtra(EXTRA_USER, (Parcelable) user);
+        i.putExtra(EXTRA_USER, user);
         return i;
     }
 
@@ -104,7 +108,12 @@ public class QuizMenuActivity extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 String json = result.toString();
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+                    @Override
+                    public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        return LocalDateTime.parse(json.getAsString());
+                    }
+                }).create();
                 mThisWeeksQuiz = gson.fromJson(json, Quiz.class);
                 mPlayButton.setEnabled(true);
                 mQuizTitle.setText(mThisWeeksQuiz.getName());

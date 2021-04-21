@@ -98,7 +98,8 @@ public class SignupActivity extends AppCompatActivity {
             if (i < emptyFields.size()) message.append(" and ").append(emptyFields.get(i)).append(".");
             else message.append(".");
 
-            Utils.displayToast(this, message.toString(), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, message.toString(), Toast.LENGTH_SHORT);
+            toast.show();
             return;
         }
 

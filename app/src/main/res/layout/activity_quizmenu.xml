@@ -12,7 +12,7 @@
         android:layout_height="90dp"
         android:padding="15dp"
         android:textAlignment="viewStart"
-        android:textSize="40sp"
+        android:textSize="32sp"
         android:textStyle="bold">
     </androidx.appcompat.widget.AppCompatTextView>
 
@@ -28,7 +28,7 @@
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
             android:text="@string/quizmenu_thisweeksquiz"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold">
         </androidx.appcompat.widget.AppCompatTextView>
 
@@ -65,7 +65,7 @@
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
             android:text="@string/quizmenu_yourcompletedquizzes"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold">
         </androidx.appcompat.widget.AppCompatTextView>
 

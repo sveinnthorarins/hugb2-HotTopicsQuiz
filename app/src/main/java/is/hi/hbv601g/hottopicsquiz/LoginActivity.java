@@ -72,11 +72,13 @@ public class LoginActivity extends AppCompatActivity {
 
         // Check if fields are empty
         if (usernameEditable == null && passwordEditable == null) {
-            Utils.displayToast(this, getString(R.string.must_type_username_and_password), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getString(R.string.must_type_username_and_password), Toast.LENGTH_SHORT);
+            toast.show();
             return;
         }
         if (usernameEditable == null) {
-            Utils.displayToast(this, getString(R.string.must_type_username), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getString(R.string.must_type_username), Toast.LENGTH_SHORT);
+            toast.show();
             return;
         }
         if (passwordEditable == null) {
@@ -84,7 +86,8 @@ public class LoginActivity extends AppCompatActivity {
             TextView v = toast.getView().findViewById(android.R.id.message);
             if (v != null) v.setGravity(Gravity.CENTER);
             toast.show();*/
-            Utils.displayToast(this, getString(R.string.must_type_password), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, getString(R.string.must_type_password), Toast.LENGTH_SHORT);
+            toast.show();
             return;
         }
 

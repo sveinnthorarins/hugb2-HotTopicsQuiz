@@ -19,5 +19,9 @@
     <string name="quizmenu_thisweeksquiz_playbutton_text">Play</string>
     <string name="quizmenu_greeting">Hi, %1$s!</string>
     <string name="quizmenu_thisweeksquiz_loading">Loading…</string>
+    <string name="quizplay_mustselect_error">You must select an answer.</string>
+    <string name="quizplay_correct">Correct!</string>
+    <string name="quizplay_incorrect">Incorrect!</string>
+    <string name="quizplay_next_text">Next question</string>
 
 </resources>

@@ -10,16 +10,8 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 public class Utils {
-
-    public static void displayToast(Context context, String message, int toastLength) {
-        Toast toast = Toast.makeText(context, message, toastLength);
-        TextView v = toast.getView().findViewById(android.R.id.message);
-        if (v != null) v.setGravity(Gravity.CENTER);
-        toast.show();
-    }
 
     public static void standardError(VolleyError error, Context context) {
         String message = "Unknown error.";
@@ -31,7 +23,8 @@ public class Utils {
             message = "Error parsing JSON, this one's for the devs!";
         }
         // Display a toast with the error
-        Utils.displayToast(context, message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        toast.show();
     }
 
     public static void standardErrorWithAuthFailureMessage(VolleyError error, Context context, String authFailureMessage) {
@@ -46,7 +39,8 @@ public class Utils {
             message = "Error parsing JSON, this one's for the devs!";
         }
         // Display a toast with the error
-        Utils.displayToast(context, message, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        toast.show();
     }
 
 }
