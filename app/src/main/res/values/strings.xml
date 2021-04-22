@@ -1,10 +1,12 @@
 <resources>
 
     <string name="app_name">HotTopicsQuiz</string>
+
     <string name="login_username_hint">username</string>
     <string name="login_password_hint">password</string>
     <string name="login_login_hint">Log In</string>
     <string name="login_signup_hint">Register Instead</string>
+
     <string name="signup_name_hint">name</string>
     <string name="signup_username_hint">username</string>
     <string name="signup_password_hint">password</string>
@@ -14,14 +16,23 @@
     <string name="must_type_password">You must type in a password.</string>
     <string name="must_type_username">You must type in a username.</string>
     <string name="must_type_username_and_password">You must type in a username and password.</string>
+
     <string name="quizmenu_thisweeksquiz">This week\'s quiz</string>
     <string name="quizmenu_yourcompletedquizzes">Your completed quizzes</string>
     <string name="quizmenu_thisweeksquiz_playbutton_text">Play</string>
+    <string name="quizmenu_thisweeksquiz_playbutton_error">Already played</string>
     <string name="quizmenu_greeting">Hi, %1$s!</string>
     <string name="quizmenu_thisweeksquiz_loading">Loading…</string>
+
     <string name="quizplay_mustselect_error">You must select an answer.</string>
     <string name="quizplay_correct">Correct!</string>
     <string name="quizplay_incorrect">Incorrect!</string>
     <string name="quizplay_next_text">Next question</string>
+
+    <string name="quizresults_return">Return</string>
+    <string name="quizresults_header">Results</string>
+    <string name="quizresults_score">Score: %1$d/%2$d</string>
+
+    <string name="error_save">Couldn\'t save your quiz progress. Make sure you are connected to the internet!</string>
 
 </resources>

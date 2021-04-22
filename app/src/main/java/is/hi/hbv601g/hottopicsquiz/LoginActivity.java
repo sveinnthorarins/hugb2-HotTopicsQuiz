@@ -19,8 +19,16 @@ import com.android.volley.ParseError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 
 import is.hi.hbv601g.hottopicsquiz.model.User;
 import is.hi.hbv601g.hottopicsquiz.networking.NetworkCallback;
@@ -82,10 +90,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         if (passwordEditable == null) {
-            /*Toast toast = Toast.makeText(this, "You must type in a password.", Toast.LENGTH_SHORT);
-            TextView v = toast.getView().findViewById(android.R.id.message);
-            if (v != null) v.setGravity(Gravity.CENTER);
-            toast.show();*/
             Toast toast = Toast.makeText(this, getString(R.string.must_type_password), Toast.LENGTH_SHORT);
             toast.show();
             return;
@@ -100,7 +104,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject result) {
                 String json = result.toString();
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+                    @Override
+                    public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                        return LocalDateTime.parse(json.getAsString());
+                    }
+                }).create();
                 mUser = gson.fromJson(json, User.class);
                 Intent intent = QuizMenuActivity.newIntent(LoginActivity.this, mUser);
                 startActivity(intent);

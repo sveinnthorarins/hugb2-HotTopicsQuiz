@@ -7,7 +7,9 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -32,20 +34,28 @@ import is.hi.hbv601g.hottopicsquiz.model.Quiz;
 import is.hi.hbv601g.hottopicsquiz.model.User;
 import is.hi.hbv601g.hottopicsquiz.networking.NetworkCallback;
 import is.hi.hbv601g.hottopicsquiz.services.QuizService;
+import is.hi.hbv601g.hottopicsquiz.services.UserService;
 
 public class QuizMenuActivity extends AppCompatActivity {
 
     private static final String EXTRA_USER = "hottopicsquiz.user";
+    private static final String KEY_SAVED = "hottopicsquiz.userissaved";
+    private static final String KEY_LASTCOMPQUIZ = "hottopicsquiz.lastcompletedquiz";
+    private static final int REQ_CODE_PLAY = 0;
 
     private QuizService mQuizService;
+    private UserService mUserService;
 
     private User mUser;
     private Quiz mThisWeeksQuiz;
+    private boolean mQuizProgressSaved = true;
+    private CompletedQuiz mLastCompletedQuiz;
 
     private AppCompatButton mPlayButton;
     private AppCompatTextView mGreeting;
     private AppCompatTextView mQuizTitle;
     private ListView mListView;
+    private CompletedQuizAdapter mListViewAdapter;
 
     public static Intent newIntent(Context c, User user) {
         Intent i = new Intent(c, QuizMenuActivity.class);
@@ -58,20 +68,44 @@ public class QuizMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizmenu);
 
-        fetchThisWeeksQuiz();
-
-        mUser = getIntent().getParcelableExtra(EXTRA_USER);
+        mQuizService = QuizService.getInstance();
+        mUserService = UserService.getInstance();
 
         mPlayButton = findViewById(R.id.quizmenu_thisweeksquiz_playbutton);
         mGreeting = findViewById(R.id.quizmenu_greeting);
         mQuizTitle = findViewById(R.id.quizmenu_thisweeksquiz_title);
         mListView = findViewById(R.id.quizmenu_completedquizzes_listview);
 
+        fetchThisWeeksQuiz();
+
+        if (savedInstanceState != null) {
+            mUser = savedInstanceState.getParcelable(EXTRA_USER);
+            mQuizProgressSaved = savedInstanceState.getBoolean(KEY_SAVED);
+            if (!mQuizProgressSaved) {
+                mLastCompletedQuiz = savedInstanceState.getParcelable(KEY_LASTCOMPQUIZ);
+                mUserService.saveNewCompletedQuiz(mUser, mLastCompletedQuiz, this, new NetworkCallback<JSONObject>() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                        mQuizProgressSaved = true;
+                    }
+
+                    @Override
+                    public void onFailure(VolleyError error) {
+                        // Tell user we couldn't save quiz progress and to check internet connection.
+                        Toast toast = Toast.makeText(QuizMenuActivity.this, R.string.error_save, Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
+            }
+        } else {
+            mUser = getIntent().getParcelableExtra(EXTRA_USER);
+        }
+
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = QuizPlayActivity.newIntent(QuizMenuActivity.this, mThisWeeksQuiz);
-                startActivity(intent);
+                startActivityForResult(intent, REQ_CODE_PLAY);
             }
         });
 
@@ -88,8 +122,8 @@ public class QuizMenuActivity extends AppCompatActivity {
             mQuizTitle.setText(R.string.quizmenu_thisweeksquiz_loading);
         }
 
-        CompletedQuizAdapter adapter = new CompletedQuizAdapter(this, R.layout.quizmenu_listview, mUser.getCompleted());
-        mListView.setAdapter(adapter);
+        mListViewAdapter = new CompletedQuizAdapter(this, R.layout.quizmenu_listview, mUser.getCompleted());
+        mListView.setAdapter(mListViewAdapter);
         mListView.setClickable(true);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -101,9 +135,48 @@ public class QuizMenuActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQ_CODE_PLAY) {
+            if (resultCode == RESULT_OK && data != null) {
+                mLastCompletedQuiz = data.getParcelableExtra(QuizPlayActivity.EXTRA_COMPQUIZ);
+                mUser.addCompletedQuiz(mLastCompletedQuiz);
+                mListViewAdapter.notifyDataSetChanged();
+                mQuizProgressSaved = false;
+                mUserService = UserService.getInstance();
+                mUserService.saveNewCompletedQuiz(mUser, mLastCompletedQuiz, this, new NetworkCallback<JSONObject>() {
+                    @Override
+                    public void onSuccess(JSONObject result) {
+                        mQuizProgressSaved = true;
+                    }
+
+                    @Override
+                    public void onFailure(VolleyError error) {
+                        // Tell user we couldn't save quiz progress and to check internet connection.
+                        Toast toast = Toast.makeText(QuizMenuActivity.this, R.string.error_save, Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
+                configurePlayButton();
+                Intent i = QuizResultsActivity.newIntent(this, mLastCompletedQuiz);
+                startActivity(i);
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(EXTRA_USER, mUser);
+        outState.putBoolean(KEY_SAVED, mQuizProgressSaved);
+        if (!mQuizProgressSaved) outState.putParcelable(KEY_LASTCOMPQUIZ, mLastCompletedQuiz);
+
+        super.onSaveInstanceState(outState);
+    }
+
     private void fetchThisWeeksQuiz() {
         // fetch quiz from backend
-        mQuizService = QuizService.getInstance();
         mQuizService.getThisWeeksQuiz(this, new NetworkCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -115,8 +188,8 @@ public class QuizMenuActivity extends AppCompatActivity {
                     }
                 }).create();
                 mThisWeeksQuiz = gson.fromJson(json, Quiz.class);
-                mPlayButton.setEnabled(true);
                 mQuizTitle.setText(mThisWeeksQuiz.getName());
+                configurePlayButton();
             }
 
             @Override
@@ -124,6 +197,19 @@ public class QuizMenuActivity extends AppCompatActivity {
                 Utils.standardError(error, QuizMenuActivity.this);
             }
         });
+    }
+
+    private void configurePlayButton() {
+        // If this week's quiz is already in user's completed list
+        if (mUser.getCompleted().size() > 0 && mUser.getCompleted().get(mUser.getCompleted().size()-1).getQuiz().getName().equals(mThisWeeksQuiz.getName())) {
+            mPlayButton.setEnabled(false);
+            mPlayButton.setText(R.string.quizmenu_thisweeksquiz_playbutton_error);
+            mPlayButton.setBackgroundTintList(getResources().getColorStateList(R.color.holo_red_light, getTheme()));
+        } else {
+            mPlayButton.setEnabled(true);
+            mPlayButton.setText(R.string.quizmenu_thisweeksquiz_playbutton_text);
+            mPlayButton.setBackgroundTintList(getResources().getColorStateList(R.color.holo_green_light, getTheme()));
+        }
     }
 
 }

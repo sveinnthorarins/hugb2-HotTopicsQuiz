@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="100dp">
+            android:paddingHorizontal="80dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/quizmenu_thisweeksquiz_title"
@@ -52,7 +52,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="@string/quizmenu_thisweeksquiz_playbutton_text"
                 tools:ignore="RelativeOverlap">
             </androidx.appcompat.widget.AppCompatButton>
         </RelativeLayout>

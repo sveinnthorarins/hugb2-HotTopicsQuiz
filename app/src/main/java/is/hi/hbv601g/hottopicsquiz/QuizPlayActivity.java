@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -21,12 +22,15 @@ import is.hi.hbv601g.hottopicsquiz.model.Quiz;
 public class QuizPlayActivity extends AppCompatActivity {
 
     private static final String EXTRA_QUIZ = "hottopicsquiz.thisweeksquiz";
+    public static final String EXTRA_COMPQUIZ = "hottopicsquiz.completedquiz";
+    private static final String KEY_CURRENTQUESTIONINDEX = "hottopicsquiz.currentquestionindex";
+    private static final String KEY_CORRECTLYANSWERED = "hottopicsquiz.correctlyanswered";
+    private static final String KEY_SCORE = "hottopicsquiz.score";
 
     private Quiz mQuiz;
     private Question mCurrentQuestion;
     private int mCurrentQuestionIndex = 0;
-    private boolean[] mQuestionsAnswered;
-    private boolean[] mCorrectlyAnswered = {false, false, false};
+    private boolean[] mCorrectlyAnswered;
     private int mScore = 0;
     
     private AppCompatTextView mQuestionText;
@@ -53,8 +57,15 @@ public class QuizPlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizplay);
 
-        mQuiz = getIntent().getParcelableExtra(EXTRA_QUIZ);
-        mQuestionsAnswered = new boolean[mQuiz.getQuestions().size()];
+        if (savedInstanceState != null) {
+            mQuiz = savedInstanceState.getParcelable(EXTRA_QUIZ);
+            mCurrentQuestionIndex = savedInstanceState.getInt(KEY_CURRENTQUESTIONINDEX);
+            mScore = savedInstanceState.getInt(KEY_SCORE);
+            mCorrectlyAnswered = savedInstanceState.getBooleanArray(KEY_CORRECTLYANSWERED);
+        } else {
+            mQuiz = getIntent().getParcelableExtra(EXTRA_QUIZ);
+            mCorrectlyAnswered = new boolean[mQuiz.getQuestions().size()];
+        }
 
         mQuestionText = findViewById(R.id.quizplay_question);
         mAnswerGroup = findViewById(R.id.quizplay_answergroup);
@@ -85,7 +96,6 @@ public class QuizPlayActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(QuizPlayActivity.this, correct ? R.string.quizplay_correct : R.string.quizplay_incorrect, Toast.LENGTH_SHORT);
                 toast.show();
 
-                mQuestionsAnswered[mCurrentQuestionIndex] = true;
                 mCorrectlyAnswered[mCurrentQuestionIndex] = correct;
                 if (correct) mScore++;
 
@@ -97,7 +107,17 @@ public class QuizPlayActivity extends AppCompatActivity {
         prepareQuestion();
 
     }
-    
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(EXTRA_QUIZ, mQuiz);
+        outState.putInt(KEY_CURRENTQUESTIONINDEX, mCurrentQuestionIndex);
+        outState.putInt(KEY_SCORE, mScore);
+        outState.putBooleanArray(KEY_CORRECTLYANSWERED, mCorrectlyAnswered);
+
+        super.onSaveInstanceState(outState);
+    }
+
     private void prepareQuestion() {
         if (mCurrentQuestionIndex == mQuiz.getQuestions().size()) {
             endQuiz();
@@ -116,7 +136,11 @@ public class QuizPlayActivity extends AppCompatActivity {
         compQuiz.setCorrectAnswers(mCorrectlyAnswered);
         compQuiz.setScore(mScore);
 
-        // set result and finish? return to quizmenu?
+        // Set result data and finish, putting us back to QuizMenuActivity
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_COMPQUIZ, compQuiz);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }
