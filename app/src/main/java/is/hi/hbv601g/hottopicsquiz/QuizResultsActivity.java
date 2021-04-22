@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,6 +62,12 @@ public class QuizResultsActivity extends AppCompatActivity {
                 result.setTextColor(getResources().getColor(R.color.holo_red_dark, getTheme()));
             }
             mQuestionsContainer.addView(toAdd);
+            View infoToAdd = View.inflate(this, R.layout.quizresults_questioninfourl, null);
+            TextView info = infoToAdd.findViewById(R.id.quizresults_questions_infourl);
+            String urlElement = "<a href='" + q.getInfoUrl() + "'>Read more here</a>";
+            info.setText(Html.fromHtml(urlElement, Html.FROM_HTML_MODE_COMPACT));
+            info.setMovementMethod(LinkMovementMethod.getInstance());
+            mQuestionsContainer.addView(infoToAdd);
             idx++;
         }
 

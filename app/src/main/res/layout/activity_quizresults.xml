@@ -36,7 +36,7 @@
     <LinearLayout
         android:id="@+id/quizresults_questions_container"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingVertical="40dp" >
