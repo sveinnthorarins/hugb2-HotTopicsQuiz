@@ -1,55 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:scrollbars="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/quizresults_header"
-        android:layout_gravity="center_horizontal"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/quizresults_title"
-        android:layout_gravity="center_horizontal"
-        android:textSize="24sp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/quizresults_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="5dp"
-        android:textSize="18sp" />
-
     <LinearLayout
-        android:id="@+id/quizresults_questions_container"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingVertical="40dp" >
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quizresults_header"
+            android:layout_gravity="center_horizontal"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quizresults_title"
+            android:layout_gravity="center_horizontal"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/quizresults_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/quizresults_questions_container"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingVertical="40dp" >
 
 
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/quizresults_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/quizresults_return"/>
 
     </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/quizresults_return"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/quizresults_return"/>
-
-</LinearLayout>
+</ScrollView>

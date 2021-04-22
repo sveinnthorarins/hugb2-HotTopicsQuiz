@@ -42,4 +42,11 @@ public class CompletedQuizAdapter extends ArrayAdapter<CompletedQuiz> {
 
         return convertView;
     }
+
+    // Override this to show the latest item at the top
+    @Nullable
+    @Override
+    public CompletedQuiz getItem(int position) {
+        return super.getItem(getCount() - position - 1);
+    }
 }
