@@ -85,6 +85,8 @@ public class QuizPlayActivity extends AppCompatActivity {
                     return;
                 }
 
+                mAnswerGroup.clearCheck();
+
                 boolean correct = false;
                 for (int i = 0; i < mAnswerOptionIds.length; i++) {
                     if (mAnswerOptionIds[i] == checkedId) {
