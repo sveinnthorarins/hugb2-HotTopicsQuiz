@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class Quiz implements Parcelable {
+public class
+Quiz implements Parcelable {
 
     private Long id;
     private List<Question> questions;
